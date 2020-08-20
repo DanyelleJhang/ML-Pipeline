@@ -662,8 +662,9 @@ class fun(object):
 			y_test = df_proba_thresh_test['Class']
 			yhat_test = df_proba_thresh_test.filter(regex='Predicted_')
 			matrix_test = confusion_matrix(y_test, yhat_test, labels=[POS, NEG])
-			TP_test, FP_test = matrix[0, 0], matrix[1, 0],
-			TN_test, FN_test = matrix[1, 1], matrix[0, 1]
+			# 2020/8/20 change "matrix" to "matrix_test"
+			TP_test, FP_test = matrix_test[0, 0], matrix_test[1, 0],
+			TN_test, FN_test = matrix_test[1, 1], matrix_test[0, 1]
 			Precision_test = TP_test / (TP_test + FP_test)
 			Accuracy_test = (TP_test + TN_test) / (TP_test + TN_test +
 				FP_test + FN_test)
