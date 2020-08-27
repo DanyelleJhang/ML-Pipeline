@@ -536,7 +536,7 @@ class fun(object):
 		for defining POS/NEG from the prediction probabilities by maximizing
 		the f1_score. Then calcuates the area under the ROC and PRc 
 		"""
-		from sklearn.metrics import f1_score, roc_auc_score, accuracy_score
+		from sklearn.metrics import f1_score, roc_auc_score, accuracy_score, jaccard_similarity_score,matthews_corrcoef,cohen_kappa_score
 		from sklearn.metrics import average_precision_score, confusion_matrix
 
 		# Gather balanced model scoring metrics
@@ -552,6 +552,7 @@ class fun(object):
 			thr_pred[thr_pred < thr] = 0
 			# Eliminates cases where all predictions are negative and
 			# the f1 and auROC are undefined
+			# 2020/8/27 add jaccard_similarity_score,matthews_corrcoef,cohen_kappa_score
 			if sum(thr_pred) > 1:
 				if (THRSHD_test.lower() == 'f1' or
 					THRSHD_test.lower() == 'fmeasure'):
@@ -562,6 +563,12 @@ class fun(object):
 					f1 = accuracy_score(y1, thr_pred)
 				elif THRSHD_test.lower() == 'auprc':
 					f1 = average_precision_score(y1, thr_pred)
+				elif THRSHD_test.lower() == 'jaccard':
+					f1 = jaccard_similarity_score(y1, thr_pred)
+				elif THRSHD_test.lower() == 'mcc':
+					f1 = matthews_corrcoef(y1, thr_pred)
+				elif THRSHD_test.lower() == 'kappa':
+					f1 = cohen_kappa_score(y1, thr_pred)
 				else:
 					print('%s is not a scoring option for model thresholding' %
 						THRSHD_test)
